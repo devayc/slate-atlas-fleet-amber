@@ -12,6 +12,7 @@ type WatchState = {
   activeId: string;
   token: string;
   chatId: string;
+  telegramProxy: string;
   intervalMin: number;
   duty: boolean;
   primed: boolean;
@@ -23,7 +24,7 @@ type WatchState = {
   setActive: (id: string) => void;
   addProfile: () => void;
   removeProfile: (id: string) => void;
-  setTelegram: (patch: { token?: string; chatId?: string }) => void;
+  setTelegram: (patch: { token?: string; chatId?: string; telegramProxy?: string }) => void;
   setIntervalMin: (minutes: number) => void;
   setDuty: (duty: boolean) => void;
   setPrimed: (primed: boolean) => void;
@@ -45,6 +46,7 @@ export const useWatch = create<WatchState>()(
       activeId: DEFAULT_PROFILE.id,
       token: "",
       chatId: "",
+      telegramProxy: "",
       intervalMin: 5,
       duty: false,
       primed: false,
@@ -98,6 +100,7 @@ export const useWatch = create<WatchState>()(
         activeId: state.activeId,
         token: state.token,
         chatId: state.chatId,
+        telegramProxy: state.telegramProxy,
         intervalMin: state.intervalMin,
         duty: state.duty,
         primed: state.primed,
