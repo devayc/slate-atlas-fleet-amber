@@ -1,0 +1,498 @@
+[
+  {
+    "name": ".dockerignore",
+    "path": ".dockerignore",
+    "sha": "e297f79132e6b417150c5bda9a2bcbff7fdd20e7",
+    "size": 115,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/.dockerignore?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/.dockerignore",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/e297f79132e6b417150c5bda9a2bcbff7fdd20e7",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/.dockerignore",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/.dockerignore?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/e297f79132e6b417150c5bda9a2bcbff7fdd20e7",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/.dockerignore"
+    }
+  },
+  {
+    "name": ".github",
+    "path": ".github",
+    "sha": "b2e297ed4e7e0fb076d690c3afd3cbb7ff5c4405",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/.github?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/.github",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/b2e297ed4e7e0fb076d690c3afd3cbb7ff5c4405",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/.github?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/b2e297ed4e7e0fb076d690c3afd3cbb7ff5c4405",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/.github"
+    }
+  },
+  {
+    "name": ".gitignore",
+    "path": ".gitignore",
+    "sha": "c595c40b69a4149d976e2e6191367ecd9e186d92",
+    "size": 647,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/.gitignore?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/.gitignore",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/c595c40b69a4149d976e2e6191367ecd9e186d92",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/.gitignore",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/.gitignore?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/c595c40b69a4149d976e2e6191367ecd9e186d92",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/.gitignore"
+    }
+  },
+  {
+    "name": "AvitoParser.py",
+    "path": "AvitoParser.py",
+    "sha": "e799665ecc059e358e044d892f4fdc8bc2ac37e1",
+    "size": 33161,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/AvitoParser.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/AvitoParser.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/e799665ecc059e358e044d892f4fdc8bc2ac37e1",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/AvitoParser.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/AvitoParser.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/e799665ecc059e358e044d892f4fdc8bc2ac37e1",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/AvitoParser.py"
+    }
+  },
+  {
+    "name": "Dockerfile",
+    "path": "Dockerfile",
+    "sha": "742255cd4f8ccdc67598b30221214c7e333724d1",
+    "size": 798,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/Dockerfile?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/Dockerfile",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/742255cd4f8ccdc67598b30221214c7e333724d1",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/Dockerfile",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/Dockerfile?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/742255cd4f8ccdc67598b30221214c7e333724d1",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/Dockerfile"
+    }
+  },
+  {
+    "name": "Makefile",
+    "path": "Makefile",
+    "sha": "fe4bd1efe049c0403fa9a758ed8e0f78d8a5ff11",
+    "size": 1301,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/Makefile?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/Makefile",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/fe4bd1efe049c0403fa9a758ed8e0f78d8a5ff11",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/Makefile",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/Makefile?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/fe4bd1efe049c0403fa9a758ed8e0f78d8a5ff11",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/Makefile"
+    }
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "sha": "211751873277f7196ee1042a26757efc95f691a2",
+    "size": 7980,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/README.md?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/README.md",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/211751873277f7196ee1042a26757efc95f691a2",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/README.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/README.md?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/211751873277f7196ee1042a26757efc95f691a2",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/README.md"
+    }
+  },
+  {
+    "name": "assets",
+    "path": "assets",
+    "sha": "ad5c40bdd81b61646707568cb6de473dbdc22cb1",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/assets?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/assets",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/ad5c40bdd81b61646707568cb6de473dbdc22cb1",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/assets?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/ad5c40bdd81b61646707568cb6de473dbdc22cb1",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/assets"
+    }
+  },
+  {
+    "name": "common_data.py",
+    "path": "common_data.py",
+    "sha": "5709e667fe5d40f76359d18a715fb6a294c8bb86",
+    "size": 828,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/common_data.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/common_data.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/5709e667fe5d40f76359d18a715fb6a294c8bb86",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/common_data.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/common_data.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/5709e667fe5d40f76359d18a715fb6a294c8bb86",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/common_data.py"
+    }
+  },
+  {
+    "name": "config.toml",
+    "path": "config.toml",
+    "sha": "5b2052c1cd21a8ea13cc4807681e84436c9e1540",
+    "size": 936,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/config.toml?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/config.toml",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/5b2052c1cd21a8ea13cc4807681e84436c9e1540",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/config.toml",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/config.toml?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/5b2052c1cd21a8ea13cc4807681e84436c9e1540",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/config.toml"
+    }
+  },
+  {
+    "name": "db_service.py",
+    "path": "db_service.py",
+    "sha": "af88b6f66d0202afd8ac7ddfbb605a5585b1beb7",
+    "size": 2654,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/db_service.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/db_service.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/af88b6f66d0202afd8ac7ddfbb605a5585b1beb7",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/db_service.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/db_service.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/af88b6f66d0202afd8ac7ddfbb605a5585b1beb7",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/db_service.py"
+    }
+  },
+  {
+    "name": "docker-compose.yml",
+    "path": "docker-compose.yml",
+    "sha": "8a98c8e893456f616db2655e6a77ae15c712e5c9",
+    "size": 715,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/docker-compose.yml?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/docker-compose.yml",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/8a98c8e893456f616db2655e6a77ae15c712e5c9",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/docker-compose.yml",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/docker-compose.yml?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/8a98c8e893456f616db2655e6a77ae15c712e5c9",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/docker-compose.yml"
+    }
+  },
+  {
+    "name": "docs",
+    "path": "docs",
+    "sha": "d4e260627e8d547a1961b06b31a69793b43fa981",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/docs?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/docs",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/d4e260627e8d547a1961b06b31a69793b43fa981",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/docs?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/d4e260627e8d547a1961b06b31a69793b43fa981",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/docs"
+    }
+  },
+  {
+    "name": "dto.py",
+    "path": "dto.py",
+    "sha": "1dc4b4236a05a19758b1e2732e43fe829c142bf2",
+    "size": 1654,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/dto.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/dto.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/1dc4b4236a05a19758b1e2732e43fe829c142bf2",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/dto.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/dto.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/1dc4b4236a05a19758b1e2732e43fe829c142bf2",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/dto.py"
+    }
+  },
+  {
+    "name": "entrypoint.sh",
+    "path": "entrypoint.sh",
+    "sha": "b8cacb2e3bbe18c6821d48645cbd1e0ecef387c9",
+    "size": 177,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/entrypoint.sh?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/entrypoint.sh",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/b8cacb2e3bbe18c6821d48645cbd1e0ecef387c9",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/entrypoint.sh",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/entrypoint.sh?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/b8cacb2e3bbe18c6821d48645cbd1e0ecef387c9",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/entrypoint.sh"
+    }
+  },
+  {
+    "name": "filters",
+    "path": "filters",
+    "sha": "a746a5643b57e06d58423d028aa6bb906b81c66a",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/filters?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/filters",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/a746a5643b57e06d58423d028aa6bb906b81c66a",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/filters?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/a746a5643b57e06d58423d028aa6bb906b81c66a",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/filters"
+    }
+  },
+  {
+    "name": "get_cookies.py",
+    "path": "get_cookies.py",
+    "sha": "7f05a40a371686372daea9a197f464d5da825b44",
+    "size": 8688,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/get_cookies.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/get_cookies.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/7f05a40a371686372daea9a197f464d5da825b44",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/get_cookies.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/get_cookies.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/7f05a40a371686372daea9a197f464d5da825b44",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/get_cookies.py"
+    }
+  },
+  {
+    "name": "hide_private_data.py",
+    "path": "hide_private_data.py",
+    "sha": "72fe640987aa748f259b8ce8be8d3583ac01f76e",
+    "size": 2106,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/hide_private_data.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/hide_private_data.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/72fe640987aa748f259b8ce8be8d3583ac01f76e",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/hide_private_data.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/hide_private_data.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/72fe640987aa748f259b8ce8be8d3583ac01f76e",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/hide_private_data.py"
+    }
+  },
+  {
+    "name": "integrations",
+    "path": "integrations",
+    "sha": "86c7ce3fdf3b2370f0b059588f6ce908991a1f98",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/integrations?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/integrations",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/86c7ce3fdf3b2370f0b059588f6ce908991a1f98",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/integrations?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/86c7ce3fdf3b2370f0b059588f6ce908991a1f98",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/integrations"
+    }
+  },
+  {
+    "name": "lang.py",
+    "path": "lang.py",
+    "sha": "8bdfea2b90b895d23d22688340118ae4066a5405",
+    "size": 13805,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/lang.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/lang.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/8bdfea2b90b895d23d22688340118ae4066a5405",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/lang.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/lang.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/8bdfea2b90b895d23d22688340118ae4066a5405",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/lang.py"
+    }
+  },
+  {
+    "name": "load_config.py",
+    "path": "load_config.py",
+    "sha": "18aaf01a2e44918b38369c7e28546c9785f2e562",
+    "size": 580,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/load_config.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/load_config.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/18aaf01a2e44918b38369c7e28546c9785f2e562",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/load_config.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/load_config.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/18aaf01a2e44918b38369c7e28546c9785f2e562",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/load_config.py"
+    }
+  },
+  {
+    "name": "models.py",
+    "path": "models.py",
+    "sha": "6b7e0d33402e2cead9d446e654bece361d648605",
+    "size": 3890,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/models.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/models.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/6b7e0d33402e2cead9d446e654bece361d648605",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/models.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/models.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/6b7e0d33402e2cead9d446e654bece361d648605",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/models.py"
+    }
+  },
+  {
+    "name": "parser",
+    "path": "parser",
+    "sha": "2cdb3cfe1281f75602d0c9b51f9b7b6672178938",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/parser?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/parser",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/2cdb3cfe1281f75602d0c9b51f9b7b6672178938",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/parser?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/2cdb3cfe1281f75602d0c9b51f9b7b6672178938",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/parser"
+    }
+  },
+  {
+    "name": "parser_cls.py",
+    "path": "parser_cls.py",
+    "sha": "a27c86394b303d1804d7b810a8e7d2cc865a9cad",
+    "size": 20623,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/parser_cls.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/parser_cls.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/a27c86394b303d1804d7b810a8e7d2cc865a9cad",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/parser_cls.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/parser_cls.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/a27c86394b303d1804d7b810a8e7d2cc865a9cad",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/parser_cls.py"
+    }
+  },
+  {
+    "name": "playwright_setup.py",
+    "path": "playwright_setup.py",
+    "sha": "558cda37844eded7a8df7672a77cb21ea7567b64",
+    "size": 2379,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/playwright_setup.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/playwright_setup.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/558cda37844eded7a8df7672a77cb21ea7567b64",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/playwright_setup.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/playwright_setup.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/558cda37844eded7a8df7672a77cb21ea7567b64",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/playwright_setup.py"
+    }
+  },
+  {
+    "name": "pytest.ini",
+    "path": "pytest.ini",
+    "sha": "a635c5c031823148db0da62e63edb0c1f6e4a5f6",
+    "size": 24,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/pytest.ini?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/pytest.ini",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/a635c5c031823148db0da62e63edb0c1f6e4a5f6",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/pytest.ini",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/pytest.ini?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/a635c5c031823148db0da62e63edb0c1f6e4a5f6",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/pytest.ini"
+    }
+  },
+  {
+    "name": "requirements.txt",
+    "path": "requirements.txt",
+    "sha": "728bbe0c46edf9fdcf7d2ac51096fb912f851e48",
+    "size": 576,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/requirements.txt?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/requirements.txt",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/728bbe0c46edf9fdcf7d2ac51096fb912f851e48",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/requirements.txt",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/requirements.txt?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/728bbe0c46edf9fdcf7d2ac51096fb912f851e48",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/requirements.txt"
+    }
+  },
+  {
+    "name": "run_avito_parser.bat",
+    "path": "run_avito_parser.bat",
+    "sha": "f59ab4e26ba0a43c1bfe41b0e855fc66861d3ce3",
+    "size": 2474,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/run_avito_parser.bat?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/run_avito_parser.bat",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/f59ab4e26ba0a43c1bfe41b0e855fc66861d3ce3",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/run_avito_parser.bat",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/run_avito_parser.bat?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/f59ab4e26ba0a43c1bfe41b0e855fc66861d3ce3",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/run_avito_parser.bat"
+    }
+  },
+  {
+    "name": "tests",
+    "path": "tests",
+    "sha": "1391c93566251f9b9d8939ea28f0adc52ab5f29e",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/tests?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/tests",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/1391c93566251f9b9d8939ea28f0adc52ab5f29e",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/tests?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/1391c93566251f9b9d8939ea28f0adc52ab5f29e",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/tests"
+    }
+  },
+  {
+    "name": "utils",
+    "path": "utils",
+    "sha": "4e435b752e1c6f1565d307a6b53c345ff415f24f",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/utils?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/utils",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/4e435b752e1c6f1565d307a6b53c345ff415f24f",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/utils?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/4e435b752e1c6f1565d307a6b53c345ff415f24f",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/utils"
+    }
+  },
+  {
+    "name": "version.py",
+    "path": "version.py",
+    "sha": "7860c99436462fb42c6a7bc24928acb147da28d1",
+    "size": 19,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/version.py?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/blob/master/version.py",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/7860c99436462fb42c6a7bc24928acb147da28d1",
+    "download_url": "https://raw.githubusercontent.com/Duff89/parser_avito/master/version.py",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/version.py?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/blobs/7860c99436462fb42c6a7bc24928acb147da28d1",
+      "html": "https://github.com/Duff89/parser_avito/blob/master/version.py"
+    }
+  }
+]

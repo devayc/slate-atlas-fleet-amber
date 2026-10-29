@@ -1,0 +1,18 @@
+[
+  {
+    "name": "notifications",
+    "path": "integrations/notifications",
+    "sha": "6d06a1ffe5d138abab29cd0475655425db17f313",
+    "size": 0,
+    "url": "https://api.github.com/repos/Duff89/parser_avito/contents/integrations/notifications?ref=master",
+    "html_url": "https://github.com/Duff89/parser_avito/tree/master/integrations/notifications",
+    "git_url": "https://api.github.com/repos/Duff89/parser_avito/git/trees/6d06a1ffe5d138abab29cd0475655425db17f313",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/Duff89/parser_avito/contents/integrations/notifications?ref=master",
+      "git": "https://api.github.com/repos/Duff89/parser_avito/git/trees/6d06a1ffe5d138abab29cd0475655425db17f313",
+      "html": "https://github.com/Duff89/parser_avito/tree/master/integrations/notifications"
+    }
+  }
+]
