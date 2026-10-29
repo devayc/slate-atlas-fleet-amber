@@ -1,4 +1,4 @@
-import { ProxyAgent, fetch as undiciFetch } from "undici";
+import { chromium, type Browser, type BrowserContext } from "playwright";
 import { filterListings } from "./match";
 import { parseAvitoPayload } from "./parse";
 import type { Listing, ProfileCheck, SearchProfile } from "./types";
@@ -7,7 +7,13 @@ import { buildSearchUrls, isAvitoHttps } from "./url";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
-function proxyOrThrow(raw: string): string | undefined {
+type ParsedProxy = {
+  server: string;
+  username?: string;
+  password?: string;
+};
+
+function parseProxy(raw: string): ParsedProxy | undefined {
   const value = raw.trim();
   if (!value) return undefined;
   let url: URL;
@@ -18,31 +24,80 @@ function proxyOrThrow(raw: string): string | undefined {
   }
   if (url.protocol !== "http:" && url.protocol !== "https:") throw new Error("bad-proxy");
   if (!url.hostname) throw new Error("bad-proxy");
-  return value;
+
+  const server = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ""}`;
+  const username = url.username ? decodeURIComponent(url.username) : undefined;
+  const password = url.password ? decodeURIComponent(url.password) : undefined;
+  return { server, username, password };
 }
 
-async function fetchPage(url: string, proxy?: string): Promise<{ body: string; status: number }> {
+async function fetchPageWithBrowser(
+  url: string,
+  proxy?: ParsedProxy,
+): Promise<{ body: string; status: number }> {
   if (!isAvitoHttps(url)) throw new Error("bad-url");
-  const dispatcher = proxy ? new ProxyAgent(proxy) : undefined;
-  const response = await undiciFetch(url, {
-    dispatcher,
-    redirect: "follow",
-    headers: {
-      "user-agent": UA,
-      accept: "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
-      "accept-language": "ru-RU,ru;q=0.9,en;q=0.5",
-      "cache-control": "no-cache",
-      "upgrade-insecure-requests": "1",
-    },
-    signal: AbortSignal.timeout(20_000),
-  });
-  const body = await response.text();
-  return { body: body.slice(0, 2_000_000), status: response.status };
+
+  let browser: Browser | null = null;
+  let context: BrowserContext | null = null;
+
+  try {
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+      ],
+    });
+
+    context = await browser.newContext({
+      userAgent: UA,
+      locale: "ru-RU",
+      viewport: { width: 1366, height: 768 },
+      extraHTTPHeaders: {
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+      },
+      proxy: proxy
+        ? {
+            server: proxy.server,
+            username: proxy.username,
+            password: proxy.password,
+          }
+        : undefined,
+    });
+
+    // Slightly reduce automation signals
+    await context.addInitScript(() => {
+      Object.defineProperty(navigator, "webdriver", { get: () => undefined });
+    });
+
+    const page = await context.newPage();
+
+    const response = await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 25_000,
+    });
+
+    // Give QRATOR / JS a moment if present
+    await page.waitForTimeout(1200 + Math.floor(Math.random() * 800));
+
+    const status = response?.status() ?? 0;
+    const body = await page.content();
+
+    return { body: body.slice(0, 2_000_000), status };
+  } finally {
+    await context?.close().catch(() => {});
+    await browser?.close().catch(() => {});
+  }
 }
 
 function proxyFailed(error: unknown): boolean {
   const text = error instanceof Error ? `${error.name} ${error.message}` : String(error);
-  return /proxy|tunnel|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|407|socket/i.test(text);
+  return /proxy|tunnel|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|407|socket|ERR_PROXY|net::ERR/i.test(text);
 }
 
 export async function runAvitoCheck(profile: SearchProfile): Promise<ProfileCheck> {
@@ -58,9 +113,9 @@ export async function runAvitoCheck(profile: SearchProfile): Promise<ProfileChec
     };
   }
 
-  let proxy: string | undefined;
+  let proxy: ParsedProxy | undefined;
   try {
-    proxy = proxyOrThrow(profile.proxyUrl);
+    proxy = parseProxy(profile.proxyUrl);
   } catch {
     return {
       profileId: profile.id,
@@ -78,9 +133,9 @@ export async function runAvitoCheck(profile: SearchProfile): Promise<ProfileChec
   let proxyErrors = 0;
 
   for (let i = 0; i < built.urls.length; i += 1) {
-    if (i > 0) await new Promise((resolve) => setTimeout(resolve, 350));
+    if (i > 0) await new Promise((resolve) => setTimeout(resolve, 600 + Math.random() * 400));
     try {
-      const page = await fetchPage(built.urls[i], proxy);
+      const page = await fetchPageWithBrowser(built.urls[i], proxy);
       const parsed = parseAvitoPayload(page.body, page.status);
       if (parsed.blocked) blocked += 1;
       else listings.push(...parsed.listings);
