@@ -23,7 +23,7 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 function numberFrom(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
-    const digits = value.replace(/[^\d]/g, "");
+    const digits = value.replace(/[^\d.,]/g, "").replace(",", ".");
     if (!digits) return null;
     const n = Number(digits);
     return Number.isFinite(n) ? n : null;
@@ -58,6 +58,38 @@ function priceOf(obj: Record<string, unknown>): number | null {
   return null;
 }
 
+function areaOf(obj: Record<string, unknown>): number | null {
+  // Common Avito JSON keys for area
+  for (const key of ["totalArea", "area", "square", "livingArea", "space"]) {
+    const v = obj[key];
+    if (typeof v === "number" && v > 5 && v < 500) return v;
+    if (typeof v === "string") {
+      const n = numberFrom(v);
+      if (n != null && n > 5 && n < 500) return n;
+    }
+    const rec = asRecord(v);
+    if (rec) {
+      if (typeof rec.value === "number" && rec.value > 5 && rec.value < 500) return rec.value;
+      if (typeof rec.amount === "number" && rec.amount > 5 && rec.amount < 500) return rec.amount;
+    }
+  }
+  // nested params / parameters arrays
+  for (const key of ["params", "parameters", "itemParams", "attributes"]) {
+    const arr = obj[key];
+    if (!Array.isArray(arr)) continue;
+    for (const item of arr) {
+      const rec = asRecord(item);
+      if (!rec) continue;
+      const title = String(rec.title ?? rec.name ?? rec.label ?? "").toLowerCase();
+      if (/площад|area|м²|кв/i.test(title)) {
+        const n = numberFrom(rec.value ?? rec.description ?? rec.text);
+        if (n != null && n > 5 && n < 500) return n;
+      }
+    }
+  }
+  return null;
+}
+
 function stringFields(obj: Record<string, unknown>, keys: Set<string>, depth = 0): string[] {
   if (depth > 5) return [];
   const acc: string[] = [];
@@ -80,7 +112,6 @@ function stringFields(obj: Record<string, unknown>, keys: Set<string>, depth = 0
 function roomsFromText(text: string): string | null {
   if (!text) return null;
   if (/студ/i.test(text)) return "студия";
-  // 2-к, 2-комн, 2 комнатная, 2к и т.п.
   const match =
     text.match(/(?:^|[^\d])(\d+)\s*[-–]?\s*к(?:\.|\s|омн|омнат|$)/i) ??
     text.match(/(?:^|[^\d])(\d+)\s*комн/i);
@@ -104,25 +135,58 @@ function roomsFromUrl(url: string): string | null {
 
 function areaFromText(text: string): number | null {
   if (!text) return null;
-  const match = text.match(/(\d+(?:[.,]\d+)?)\s*(?:м²|м2|кв\.?\s*м)/i);
+  // "45 м²", "45,5 м2", "45 кв. м", "площадь 45"
+  const match =
+    text.match(/(\d+(?:[.,]\d+)?)\s*(?:м²|м2|кв\.?\s*м)/i) ??
+    text.match(/площад[ьи]\s*[:\s]*(\d+(?:[.,]\d+)?)/i);
   if (!match) return null;
   const n = Number(match[1].replace(",", "."));
-  return Number.isFinite(n) ? n : null;
+  if (!Number.isFinite(n) || n < 8 || n > 400) return null;
+  return n;
 }
 
 function districtFromText(text: string): string | null {
   if (!text) return null;
-  const named = text.match(/р-н\.?\s+([A-Za-zА-Яа-яЁё-]+)/i);
-  if (named) return named[1];
-  const tail = text.match(/([A-Za-zА-Яа-яЁё-]{4,})\s+район/i);
-  if (tail) return tail[1];
+  const patterns = [
+    /р-?н\.?\s+([А-Яа-яЁёA-Za-z-]{3,40})/i,
+    /([А-Яа-яЁёA-Za-z-]{3,40})\s+р-?н\b/i,
+    /([А-Яа-яЁёA-Za-z-]{3,40})\s+район/i,
+    /район\s+([А-Яа-яЁёA-Za-z-]{3,40})/i,
+  ];
+  for (const re of patterns) {
+    const m = text.match(re);
+    if (m?.[1] && !/^(г|гор|город|ул|улица|пр|проспект)$/i.test(m[1])) {
+      return m[1];
+    }
+  }
   return null;
 }
 
 function districtOf(obj: Record<string, unknown>, text: string): string | null {
-  const keys = new Set(["districtName", "district", "District"]);
-  const found = stringFields(obj, keys).map((s) => s.trim()).find(Boolean);
-  if (found && !/^иваново$/i.test(found)) return found.replace(/^р-н\.?\s+/i, "");
+  const keys = new Set([
+    "districtName",
+    "district",
+    "District",
+    "regionName",
+    "parentName",
+    "geoName",
+  ]);
+  const found = stringFields(obj, keys)
+    .map((s) => s.trim())
+    .find((s) => s && !/^иваново$/i.test(s) && s.length > 2);
+  if (found) return found.replace(/^р-?н\.?\s+/i, "");
+
+  // geo object
+  const geo = asRecord(obj.geo) ?? asRecord(obj.location) ?? asRecord(obj.address);
+  if (geo) {
+    for (const key of ["districtName", "district", "name", "parentName"]) {
+      const v = geo[key];
+      if (typeof v === "string" && v.trim() && !/^иваново$/i.test(v)) {
+        return v.trim().replace(/^р-?н\.?\s+/i, "");
+      }
+    }
+  }
+
   return districtFromText(text);
 }
 
@@ -146,14 +210,14 @@ function listingFromRecord(obj: Record<string, unknown>): Listing | null {
 
   const addressBits = stringFields(
     obj,
-    new Set(["locationName", "address", "formattedAddress", "geoReference"]),
+    new Set(["locationName", "address", "formattedAddress", "geoReference", "fullAddress"]),
   );
   const address = addressBits.filter(Boolean).slice(0, 3).join(", ") || null;
   const url = absoluteUrl(pathCandidate ?? `/${id}`, id);
   const blob = [title, address ?? "", url].join(" ");
   const rooms =
     roomsFromText(title) ?? roomsFromText(blob) ?? roomsFromUrl(url);
-  const area = areaFromText(title) ?? areaFromText(blob);
+  const area = areaOf(obj) ?? areaFromText(title) ?? areaFromText(blob);
 
   return {
     id,
@@ -198,7 +262,6 @@ export function isBlockedBody(body: string, status: number): boolean {
 function parseDom(html: string): Listing[] {
   const out: Listing[] = [];
 
-  // Modern Avito item cards
   const itemRe = /data-item-id=["'](\d+)["'][^>]*>([\s\S]*?)(?=data-item-id=["']\d+["']|$)/gi;
   let m: RegExpExecArray | null;
   while ((m = itemRe.exec(html)) && out.length < 60) {
@@ -224,13 +287,19 @@ function parseDom(html: string): Listing[] {
     const price = priceRaw ? numberFrom(priceRaw) : null;
 
     const addressRaw =
+      chunk.match(/data-marker=["']item-address["'][^>]*>[\s\S]*?<span[^>]*>([^<]+)/i)?.[1] ??
       chunk.match(/data-marker=["']item-address["'][^>]*>([^<]+)/i)?.[1] ??
       chunk.match(/itemprop=["']address["'][^>]*>([^<]+)/i)?.[1] ??
       "";
     const address = decodeBasic(addressRaw) || null;
 
+    // specific specific area in card meta
+    const areaRaw =
+      chunk.match(/(\d+(?:[.,]\d+)?)\s*(?:м²|м2)/i)?.[1] ??
+      chunk.match(/data-marker=["']item-specific-params["'][^>]*>([^<]+)/i)?.[1];
+
     const url = absoluteUrl(href ?? `/${id}`, id);
-    const blob = `${title} ${address ?? ""} ${url}`;
+    const blob = `${title} ${address ?? ""} ${areaRaw ?? ""} ${url}`;
 
     if (!href && !title && price == null) continue;
 
@@ -240,13 +309,12 @@ function parseDom(html: string): Listing[] {
       url,
       price,
       rooms: roomsFromText(blob) ?? roomsFromUrl(url),
-      area: areaFromText(blob),
+      area: areaFromText(blob) ?? (areaRaw ? numberFrom(areaRaw) : null),
       district: districtFromText(blob),
       address,
     });
   }
 
-  // Fallback older split method
   if (out.length === 0) {
     const parts = html.split(/data-item-id=["']/i).slice(1, 60);
     for (const part of parts) {
@@ -319,7 +387,6 @@ export function parseAvitoPayload(
     }
   }
 
-  // data-mfe-state scripts
   const re = /<script[^>]*data-mfe-state[^>]*>([\s\S]*?)<\/script>/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(body))) {
@@ -330,7 +397,6 @@ export function parseAvitoPayload(
     }
   }
 
-  // Also try __preloadedState__ / similar
   const preloaded = body.match(/window\.__preloadedState__\s*=\s*(\{[\s\S]*?\});/);
   if (preloaded) {
     try {
