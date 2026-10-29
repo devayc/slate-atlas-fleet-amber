@@ -1,3 +1,5 @@
+import { ProxyAgent, fetch as undiciFetch } from "undici";
+
 const TOKEN = /^\d{6,}:[A-Za-z0-9_-]{20,}$/;
 
 function humanize(description: string): string {
@@ -17,10 +19,24 @@ function humanize(description: string): string {
   return "Telegram не принял сообщение. Проверьте токен и chat id.";
 }
 
+function parseProxy(raw: string | undefined): string | undefined {
+  const value = (raw ?? "").trim();
+  if (!value) return undefined;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return undefined;
+    if (!url.hostname) return undefined;
+    return value;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function sendTelegramMessage(
   token: string,
   chatId: string,
   text: string,
+  proxyUrl?: string,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const cleanToken = token.trim();
   const cleanChat = chatId.trim();
@@ -37,9 +53,12 @@ export async function sendTelegramMessage(
     return { ok: false, message: "Сообщение слишком длинное." };
   }
 
+  const proxy = parseProxy(proxyUrl);
+  const dispatcher = proxy ? new ProxyAgent(proxy) : undefined;
+
   let response: Response;
   try {
-    response = await fetch(`https://api.telegram.org/bot${cleanToken}/sendMessage`, {
+    response = await undiciFetch(`https://api.telegram.org/bot${cleanToken}/sendMessage`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -47,9 +66,17 @@ export async function sendTelegramMessage(
         text,
         disable_web_page_preview: false,
       }),
+      dispatcher,
       signal: AbortSignal.timeout(15_000),
     });
-  } catch {
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (proxy && /proxy|tunnel|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|407|socket/i.test(msg)) {
+      return {
+        ok: false,
+        message: "Не удалось подключиться к Telegram через прокси. Проверьте адрес прокси.",
+      };
+    }
     return { ok: false, message: "Не удалось связаться с Telegram. Повторите через минуту." };
   }
 
