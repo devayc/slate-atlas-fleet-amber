@@ -33,7 +33,8 @@ function districtOk(listing: Listing, profile: SearchProfile): boolean {
 
 /**
  * Post-filters. URL already narrows city, rooms and price when possible.
- * Unknown area / rooms / district are kept — a missed parse must not hide a flat.
+ * If the profile asks for specific rooms and we could not parse rooms from the
+ * listing, drop it — otherwise 1-room flats leak through when the parser fails.
  */
 export function listingMatches(listing: Listing, profile: SearchProfile): boolean {
   const priceMin = digits(profile.priceMin);
@@ -41,7 +42,8 @@ export function listingMatches(listing: Listing, profile: SearchProfile): boolea
   if (listing.price != null && priceMin != null && listing.price < priceMin) return false;
   if (listing.price != null && priceMax != null && listing.price > priceMax) return false;
 
-  if (listing.rooms && profile.rooms.length > 0 && !profile.customUrl.trim()) {
+  if (profile.rooms.length > 0 && !profile.customUrl.trim()) {
+    if (!listing.rooms) return false; // unknown rooms → exclude when filter is set
     const code = listing.rooms === "студия" ? "studio" : listing.rooms;
     const allowed = new Set<string>(profile.rooms);
     if (!allowed.has(code)) return false;
