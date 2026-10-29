@@ -78,8 +78,12 @@ function stringFields(obj: Record<string, unknown>, keys: Set<string>, depth = 0
 }
 
 function roomsFromText(text: string): string | null {
+  if (!text) return null;
   if (/студ/i.test(text)) return "студия";
-  const match = text.match(/(?:^|[^\d])(\d+)\s*-\s*к(?:\.|\s|омн|$)/i);
+  // 2-к, 2-комн, 2 комнатная, 2к и т.п.
+  const match =
+    text.match(/(?:^|[^\d])(\d+)\s*[-–]?\s*к(?:\.|\s|омн|омнат|$)/i) ??
+    text.match(/(?:^|[^\d])(\d+)\s*комн/i);
   if (!match) return null;
   const n = Number(match[1]);
   if (n >= 5) return "5";
@@ -87,7 +91,19 @@ function roomsFromText(text: string): string | null {
   return null;
 }
 
+function roomsFromUrl(url: string): string | null {
+  if (/studii|studio|студи/i.test(url)) return "студия";
+  const m = url.match(/(\d)-komnatn/i);
+  if (m) {
+    const n = Number(m[1]);
+    if (n >= 5) return "5";
+    if (n >= 1) return String(n);
+  }
+  return null;
+}
+
 function areaFromText(text: string): number | null {
+  if (!text) return null;
   const match = text.match(/(\d+(?:[.,]\d+)?)\s*(?:м²|м2|кв\.?\s*м)/i);
   if (!match) return null;
   const n = Number(match[1].replace(",", "."));
@@ -95,6 +111,7 @@ function areaFromText(text: string): number | null {
 }
 
 function districtFromText(text: string): string | null {
+  if (!text) return null;
   const named = text.match(/р-н\.?\s+([A-Za-zА-Яа-яЁё-]+)/i);
   if (named) return named[1];
   const tail = text.match(/([A-Za-zА-Яа-яЁё-]{4,})\s+район/i);
@@ -120,9 +137,9 @@ function listingFromRecord(obj: Record<string, unknown>): Listing | null {
   const id = typeof idRaw === "number" || typeof idRaw === "string" ? String(idRaw) : "";
   if (!/^\d{5,}$/.test(id)) return null;
 
-  const pathCandidate = [obj.urlPath, obj.uri_mweb, obj.uriMweb].find((v) => typeof v === "string") as
-    | string
-    | undefined;
+  const pathCandidate = [obj.urlPath, obj.uri_mweb, obj.uriMweb, obj.url].find(
+    (v) => typeof v === "string",
+  ) as string | undefined;
   const title = typeof obj.title === "string" ? obj.title.trim() : "";
   const price = priceOf(obj);
   if (!pathCandidate && !title && price == null) return null;
@@ -132,14 +149,16 @@ function listingFromRecord(obj: Record<string, unknown>): Listing | null {
     new Set(["locationName", "address", "formattedAddress", "geoReference"]),
   );
   const address = addressBits.filter(Boolean).slice(0, 3).join(", ") || null;
-  const blob = [title, address ?? ""].join(" ");
-  const rooms = roomsFromText(title) ?? roomsFromText(blob);
+  const url = absoluteUrl(pathCandidate ?? `/${id}`, id);
+  const blob = [title, address ?? "", url].join(" ");
+  const rooms =
+    roomsFromText(title) ?? roomsFromText(blob) ?? roomsFromUrl(url);
   const area = areaFromText(title) ?? areaFromText(blob);
 
   return {
     id,
     title: title || "Квартира",
-    url: absoluteUrl(pathCandidate ?? `/${id}`, id),
+    url,
     price,
     rooms,
     area,
@@ -159,7 +178,9 @@ function walk(value: unknown, out: Listing[], state: { nodes: number }, depth: n
   if (!rec) return;
   const listing = listingFromRecord(rec);
   if (listing && (listing.url.includes("/kvartiry/") || listing.url.includes("/item/") || listing.title)) {
-    if (listing.url.includes("/kvartiry/") || listing.price != null) out.push(listing);
+    if (listing.url.includes("/kvartiry/") || listing.price != null || listing.title !== "Квартира") {
+      out.push(listing);
+    }
   }
   for (const child of Object.values(rec)) walk(child, out, state, depth + 1);
 }
@@ -175,40 +196,93 @@ export function isBlockedBody(body: string, status: number): boolean {
 }
 
 function parseDom(html: string): Listing[] {
-  const parts = html.split('data-item-id="').slice(1, 60);
   const out: Listing[] = [];
-  for (const part of parts) {
-    const id = part.match(/^(\d+)/)?.[1];
-    if (!id) continue;
-    const chunk = part.slice(0, 5000);
+
+  // Modern Avito item cards
+  const itemRe = /data-item-id=["'](\d+)["'][^>]*>([\s\S]*?)(?=data-item-id=["']\d+["']|$)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = itemRe.exec(html)) && out.length < 60) {
+    const id = m[1];
+    const chunk = m[2].slice(0, 8000);
+
     const href =
-      chunk.match(/href="(\/[^"]*kvartiry[^"]*)"/i)?.[1] ??
-      chunk.match(/itemprop="url"[^>]*href="([^"]+)"/i)?.[1] ??
-      chunk.match(/href="(\/[^"]+)"/)?.[1];
+      chunk.match(/href=["'](\/[^"']*kvartiry[^"']*)["']/i)?.[1] ??
+      chunk.match(/itemprop=["']url["'][^>]*href=["']([^"']+)["']/i)?.[1] ??
+      chunk.match(/href=["'](\/[^"']+)["']/i)?.[1];
+
     const titleRaw =
-      chunk.match(/itemprop="name"[^>]*>([^<]+)/i)?.[1] ??
-      chunk.match(/data-marker="item-title"[^>]*>([^<]+)/i)?.[1] ??
+      chunk.match(/itemprop=["']name["'][^>]*>([^<]+)/i)?.[1] ??
+      chunk.match(/data-marker=["']item-title["'][^>]*>([^<]+)/i)?.[1] ??
+      chunk.match(/class=["'][^"']*title[^"']*["'][^>]*>([^<]{5,120})/i)?.[1] ??
       "";
     const title = decodeBasic(titleRaw);
+
     const priceRaw =
-      chunk.match(/itemprop="price"[^>]*content="(\d+)"/i)?.[1] ??
-      chunk.match(/content="(\d+)"[^>]*itemprop="price"/i)?.[1];
+      chunk.match(/itemprop=["']price["'][^>]*content=["'](\d+)["']/i)?.[1] ??
+      chunk.match(/content=["'](\d+)["'][^>]*itemprop=["']price["']/i)?.[1] ??
+      chunk.match(/data-marker=["']item-price["'][^>]*>[\s\S]*?(\d[\d\s]{2,})/i)?.[1];
     const price = priceRaw ? numberFrom(priceRaw) : null;
-    const addressRaw = chunk.match(/data-marker="item-address"[^>]*>([^<]+)/i)?.[1] ?? "";
+
+    const addressRaw =
+      chunk.match(/data-marker=["']item-address["'][^>]*>([^<]+)/i)?.[1] ??
+      chunk.match(/itemprop=["']address["'][^>]*>([^<]+)/i)?.[1] ??
+      "";
     const address = decodeBasic(addressRaw) || null;
-    const blob = `${title} ${address ?? ""}`;
-    if (!href && !title) continue;
+
+    const url = absoluteUrl(href ?? `/${id}`, id);
+    const blob = `${title} ${address ?? ""} ${url}`;
+
+    if (!href && !title && price == null) continue;
+
     out.push({
       id,
       title: title || "Квартира",
-      url: absoluteUrl(href ?? `/${id}`, id),
+      url,
       price,
-      rooms: roomsFromText(blob),
+      rooms: roomsFromText(blob) ?? roomsFromUrl(url),
       area: areaFromText(blob),
       district: districtFromText(blob),
       address,
     });
   }
+
+  // Fallback older split method
+  if (out.length === 0) {
+    const parts = html.split(/data-item-id=["']/i).slice(1, 60);
+    for (const part of parts) {
+      const id = part.match(/^(\d+)/)?.[1];
+      if (!id) continue;
+      const chunk = part.slice(0, 5000);
+      const href =
+        chunk.match(/href=["'](\/[^"']*kvartiry[^"']*)["']/i)?.[1] ??
+        chunk.match(/href=["'](\/[^"']+)["']/i)?.[1];
+      const titleRaw =
+        chunk.match(/itemprop=["']name["'][^>]*>([^<]+)/i)?.[1] ??
+        chunk.match(/data-marker=["']item-title["'][^>]*>([^<]+)/i)?.[1] ??
+        "";
+      const title = decodeBasic(titleRaw);
+      const priceRaw =
+        chunk.match(/itemprop=["']price["'][^>]*content=["'](\d+)["']/i)?.[1] ??
+        chunk.match(/content=["'](\d+)["'][^>]*itemprop=["']price["']/i)?.[1];
+      const price = priceRaw ? numberFrom(priceRaw) : null;
+      const addressRaw = chunk.match(/data-marker=["']item-address["'][^>]*>([^<]+)/i)?.[1] ?? "";
+      const address = decodeBasic(addressRaw) || null;
+      const url = absoluteUrl(href ?? `/${id}`, id);
+      const blob = `${title} ${address ?? ""} ${url}`;
+      if (!href && !title) continue;
+      out.push({
+        id,
+        title: title || "Квартира",
+        url,
+        price,
+        rooms: roomsFromText(blob) ?? roomsFromUrl(url),
+        area: areaFromText(blob),
+        district: districtFromText(blob),
+        address,
+      });
+    }
+  }
+
   return out;
 }
 
@@ -245,6 +319,7 @@ export function parseAvitoPayload(
     }
   }
 
+  // data-mfe-state scripts
   const re = /<script[^>]*data-mfe-state[^>]*>([\s\S]*?)<\/script>/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(body))) {
@@ -252,6 +327,16 @@ export function parseAvitoPayload(
       walk(JSON.parse(match[1]), collected, { nodes: 0 }, 0);
     } catch {
       /* ignore broken script */
+    }
+  }
+
+  // Also try __preloadedState__ / similar
+  const preloaded = body.match(/window\.__preloadedState__\s*=\s*(\{[\s\S]*?\});/);
+  if (preloaded) {
+    try {
+      walk(JSON.parse(preloaded[1]), collected, { nodes: 0 }, 0);
+    } catch {
+      /* ignore */
     }
   }
 
