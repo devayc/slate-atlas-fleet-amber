@@ -28,6 +28,7 @@ const telegramSchema = z.object({
   token: z.string().min(8).max(200),
   chatId: z.string().min(2).max(80),
   text: z.string().min(1).max(3500),
+  proxyUrl: z.string().max(400).optional(),
 });
 
 let lastCheckAt = 0;
@@ -64,5 +65,5 @@ export const sendTelegram = createServerFn({ method: "POST" })
   .validator((input: unknown) => telegramSchema.parse(input))
   .handler(async ({ data }) => {
     const { sendTelegramMessage } = await import("./telegram.server");
-    return sendTelegramMessage(data.token, data.chatId, data.text);
+    return sendTelegramMessage(data.token, data.chatId, data.text, data.proxyUrl);
   });
